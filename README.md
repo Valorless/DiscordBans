@@ -10,6 +10,7 @@ DB catches the following commands and sends it to discord via webhook.
 - /pardon-ip (Minecraft)
 
 Once a command is caught, information regarding the target, sender, reason and more, is sent to the webhook.
+
 *Currently DiscordBans does not catch commands cast by the console.*
 
 ## Commands
