@@ -11,6 +11,18 @@ DB catches the following commands and sends it to discord via webhook.
 
 Once a command is caught, information regarding the target, sender, reason and more, is sent to the webhook.
 
+## Commands
+
+- /db reload
+  - Reloads config.yml
+  
+## Permissions
+
+- discordbans.*
+  - Gives all DiscordBans permissions.
+- discordbans.reload
+  - Allows usage of /db reload.
+
 ## Messages
 
 Within /plugins/DiscordBans/config.yml you'll find a 'message' section. You can customize the messages to anything you want, with or without provided placeholders:
