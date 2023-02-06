@@ -34,8 +34,6 @@ debug: false
 # +------------------------------------------------------+ #
 ############################################################
 
-# Not yet implemented
-
 # Message Content
 # This is located above the embed.
 bot-message: ''
