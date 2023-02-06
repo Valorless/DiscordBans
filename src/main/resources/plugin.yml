@@ -1,0 +1,23 @@
+name: DiscordBans
+main: valorless.discordbans.DiscordBans
+version: 0.0.1
+author: Valorless
+api-version: 1.18
+commands:
+  db:
+    description: Main command.
+    usage:
+  db reload:
+    description: Reloads the configuration file.
+    usage: /db reload
+    permission: discordbans.reload
+    permission-message: You don't have discordbans.reload.
+permissions:
+  discordbans.*:
+    description: Gives access to all discordbans commands.
+    children:
+        discordbans.reload: true
+  discordbans.reload:
+    description: Allows you to reload the configuration.
+    default: op
+  
