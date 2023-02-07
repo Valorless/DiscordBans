@@ -1,6 +1,6 @@
 name: DiscordBans
 main: valorless.discordbans.DiscordBans
-version: 0.0.1
+version: 0.0.2
 author: Valorless
 api-version: 1.18
 commands:
@@ -12,12 +12,30 @@ commands:
     usage: /db reload
     permission: discordbans.reload
     permission-message: You don't have discordbans.reload.
+  db disable:
+    description: Disabled the plugin. Requires a reload or restart to re-enable.
+    usage: /db disable
+    permission: discordbans.disable
+    permission-message: You don't have discordbans.disable.
+  db debug:
+    description: Enable/Disable debugging for DiscordBans.
+    usage: /db debug
+    permission: discordbans.debug
+    permission-message: You don't have discordbans.debug.
 permissions:
   discordbans.*:
     description: Gives access to all discordbans commands.
     children:
         discordbans.reload: true
+        discordbans.disable: true
+        discordbans.debug: true
   discordbans.reload:
     description: Allows you to reload the configuration.
+    default: op
+  discordbans.disable:
+    description: Allows you to disable the plugin.
+    default: op
+  discordbans.debug:
+    description: Allows you to enable/disable debugging.
     default: op
   

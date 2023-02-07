@@ -25,6 +25,8 @@ public final class DiscordBans extends JavaPlugin implements Listener {
 		LoadConfig();
 		
 		getServer().getPluginManager().registerEvents(new BanListener(), this);
+		getServer().getPluginManager().registerEvents(new CommandListener(), this);
+		
 		getLogger().info("Bans: " + this.getConfig().getBoolean("bans"));
 		getLogger().info("Tempbans: " + this.getConfig().getBoolean("tempbans"));
 		getLogger().info("Unbans: " + this.getConfig().getBoolean("unbans"));

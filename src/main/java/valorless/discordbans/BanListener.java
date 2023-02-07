@@ -15,7 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class BanListener implements Listener {
+public class BanListener implements Listener { // Primary objective of BanListener is to listen for Ban commands.
 	Plugin instance;
 	String Name = "§7[§4DiscordBans§7]§r";
 	
@@ -29,23 +29,6 @@ public class BanListener implements Listener {
 		//Log("command1! " + event.getMessage());
 		String[] args = event.getMessage().split("\\s+");
 		Player sender = event.getPlayer();
-		if(args[0].equalsIgnoreCase("/db") && sender.hasPermission("discordbans.reload")) {
-			
-			if(args.length == 1) {
-			sender.sendMessage(Name + " DiscordBans by Valorless. Send bans, tempbans, and unbans to Discord.");
-			}
-			else if (args.length >= 2){
-				if(args[1].equalsIgnoreCase("reload")) {
-					instance.reloadConfig();
-					sender.sendMessage("§aDiscordBans reloaded.");
-					Logger.getLogger("Minecraft").info(Name + "§aReloaded!");
-					if(instance.getConfig().getString("webhook-url") == "") {
-						Logger.getLogger("Minecraft").info("§cDisabled!");
-						DiscordBans.enabled = false;
-					}
-				}
-			}
-		}
 		
 		if(DiscordBans.enabled == false) {
 			sender.sendMessage(Name + " Please set me up before use, I have disabled myself.");
