@@ -1,7 +1,7 @@
 package valorless.discordbans;
 import valorless.discordbans.DiscordBans.BanType;
 
-import org.bukkit.plugin.*;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -16,16 +16,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class BanListener implements Listener { // Primary objective of BanListener is to listen for Ban commands.
-	Plugin instance;
+	public static JavaPlugin plugin;
 	String Name = "§7[§4DiscordBans§7]§r";
 	
 	public void onEnable() {
-		instance = DiscordBans.instance;
 	}
 	
 	@EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-		if(instance == null) { instance = DiscordBans.instance; }
 		//Log("command1! " + event.getMessage());
 		String[] args = event.getMessage().split("\\s+");
 		Player sender = event.getPlayer();
@@ -35,7 +33,7 @@ public class BanListener implements Listener { // Primary objective of BanListen
 			Logger.getLogger("Minecraft").log(Level.WARNING, "Please change my config.yml before using me.\nYou can reload me when needed with /db reload.");
 		} 
 		else {
-			if(args[0].equalsIgnoreCase("/ban") && args.length >= 2 && instance.getConfig().getBoolean("bans") == true) {
+			if(args[0].equalsIgnoreCase("/ban") && args.length >= 2 && Config.GetBool("bans") == true) {
 				if(sender.hasPermission("minecraft.command.ban") || sender.hasPermission("essentials.ban")) {
 					Date now = new Date();
 					String target = args[1];
@@ -49,7 +47,7 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					}
 				}
 			}
-			if(args[0].equalsIgnoreCase("/tempban") && args.length >= 3 && instance.getConfig().getBoolean("tempbans") == true) {
+			if(args[0].equalsIgnoreCase("/tempban") && args.length >= 3 && Config.GetBool("tempbans") == true) {
 				if(sender.hasPermission("essentials.tempban")) {
 					for(Player entry:Bukkit.getServer().getOnlinePlayers())
 					{
@@ -68,8 +66,8 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					}
 				}
 			}
-			if(args[0].equalsIgnoreCase("/unban") && args.length >= 2 && instance.getConfig().getBoolean("unbans") == true || 
-			args[0].equalsIgnoreCase("/pardon") && args.length >= 2 && instance.getConfig().getBoolean("unbans") == true) {
+			if(args[0].equalsIgnoreCase("/unban") && args.length >= 2 && Config.GetBool("unbans") == true || 
+			args[0].equalsIgnoreCase("/pardon") && args.length >= 2 && Config.GetBool("unbans") == true) {
 				if(sender.hasPermission("minecraft.command.pardon") || sender.hasPermission("essentials.unban")) {
 					Date now = new Date();
 					String target = args[1];
@@ -78,7 +76,7 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					}
 				}
 			}
-			if(args[0].equalsIgnoreCase("/banip") && args.length >= 2 && instance.getConfig().getBoolean("banips") == true) {
+			if(args[0].equalsIgnoreCase("/banip") && args.length >= 2 && Config.GetBool("banips") == true) {
 				if(sender.hasPermission("essentials.banip")) {
 					Date now = new Date();
 					String target = args[1];
@@ -92,8 +90,8 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					}
 				}
 			}
-			if(args[0].equalsIgnoreCase("/unbanip") && args.length >= 2 && instance.getConfig().getBoolean("unbanips") == true ||
-			args[0].equalsIgnoreCase("/pardon-ip") && args.length >= 2 && instance.getConfig().getBoolean("unbanips") == true) {
+			if(args[0].equalsIgnoreCase("/unbanip") && args.length >= 2 && Config.GetBool("unbanips") == true ||
+			args[0].equalsIgnoreCase("/pardon-ip") && args.length >= 2 && Config.GetBool("unbanips") == true) {
 				if(sender.hasPermission("minecraft.command.pardon-ip") || sender.hasPermission("essentials.unbanip")) {
 					Date now = new Date();
 					String target = args[1];
@@ -106,8 +104,8 @@ public class BanListener implements Listener { // Primary objective of BanListen
     }
 	
 	public void Log(String msg) {
-		if(instance != null) {
-			if(instance.getConfig().getBoolean("debug") == true) {
+		if(plugin != null) {
+			if(Config.GetBool("debug") == true) {
 				Logger.getLogger("Minecraft").info(msg);
     		}
 		}
@@ -128,67 +126,67 @@ public class BanListener implements Listener { // Primary objective of BanListen
     	Log("Reason: " + reason);
     	Log("Date: " + date.toString());
     	Log("Duration: " + duration);
-    	DiscordWebhook webhook = new DiscordWebhook(instance.getConfig().getString("webhook-url"));
-        webhook.setContent(FormatText.Entry(instance.getConfig().getString("bot-message")));
-        webhook.setAvatarUrl(instance.getConfig().getString("bot-picture"));
-        webhook.setUsername(instance.getConfig().getString("bot-name"));
+    	DiscordWebhook webhook = new DiscordWebhook(Config.GetString("webhook-url"));
+        webhook.setContent(FormatText.Entry(Config.GetString("bot-message")));
+        webhook.setAvatarUrl(Config.GetString("bot-picture"));
+        webhook.setUsername(Config.GetString("bot-name"));
         webhook.setTts(false);
         if(type == BanType.ban) {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(FormatText.Entry(instance.getConfig().getString("banned-title")))
-                .setDescription(FormatText.Entry(instance.getConfig().getString("description")))
-                .setColor(Color.decode(instance.getConfig().getString("ban-color")))
-                .addField(FormatText.Entry(instance.getConfig().getString("reason-line1")), FormatText.Entry(instance.getConfig().getString("reason-line2")), false)
-                .addField(FormatText.Entry(instance.getConfig().getString("banned-by-line1")), FormatText.Entry(instance.getConfig().getString("banned-by-line2")), false)
+                .setTitle(FormatText.Entry(Config.GetString("banned-title")))
+                .setDescription(FormatText.Entry(Config.GetString("description")))
+                .setColor(Color.decode(Config.GetString("ban-color")))
+                .addField(FormatText.Entry(Config.GetString("reason-line1")), FormatText.Entry(Config.GetString("reason-line2")), false)
+                .addField(FormatText.Entry(Config.GetString("banned-by-line1")), FormatText.Entry(Config.GetString("banned-by-line2")), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(FormatText.Entry(instance.getConfig().getString("banned-on")), "")
+                .setFooter(FormatText.Entry(Config.GetString("banned-on")), "")
                 .setUrl("https://mcnames.net/username/" + target)
         	);
         }
         if(type == BanType.tempban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                 .setTitle(FormatText.Entry(instance.getConfig().getString("tempbanned-title")))
-                .setDescription(FormatText.Entry(instance.getConfig().getString("description")))
-                .setColor(Color.decode(instance.getConfig().getString("tempban-color")))
-                .addField(FormatText.Entry(instance.getConfig().getString("reason-line1")), FormatText.Entry(instance.getConfig().getString("reason-line2")), false)
-                .addField(FormatText.Entry(instance.getConfig().getString("banned-by-line1")), FormatText.Entry(instance.getConfig().getString("banned-by-line2")), false)
-                .addField(FormatText.Entry(instance.getConfig().getString("duration-line1")), FormatText.Entry(instance.getConfig().getString("duration-line2")), false)
+                 .setTitle(FormatText.Entry(Config.GetString("tempbanned-title")))
+                .setDescription(FormatText.Entry(Config.GetString("description")))
+                .setColor(Color.decode(Config.GetString("tempban-color")))
+                .addField(FormatText.Entry(Config.GetString("reason-line1")), FormatText.Entry(Config.GetString("reason-line2")), false)
+                .addField(FormatText.Entry(Config.GetString("banned-by-line1")), FormatText.Entry(Config.GetString("banned-by-line2")), false)
+                .addField(FormatText.Entry(Config.GetString("duration-line1")), FormatText.Entry(Config.GetString("duration-line2")), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(FormatText.Entry(instance.getConfig().getString("banned-on")), "")
+                .setFooter(FormatText.Entry(Config.GetString("banned-on")), "")
                 .setUrl("https://mcnames.net/username/" + target)
             );
         }
         if(type == BanType.unban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(FormatText.Entry(instance.getConfig().getString("unbanned-title")))
-                .setDescription(FormatText.Entry(instance.getConfig().getString("description")))
-                .setColor(Color.decode(instance.getConfig().getString("unban-color")))
-                .addField(FormatText.Entry(instance.getConfig().getString("unbanned-by-line1")), FormatText.Entry(instance.getConfig().getString("unbanned-by-line2")), false)
+                .setTitle(FormatText.Entry(Config.GetString("unbanned-title")))
+                .setDescription(FormatText.Entry(Config.GetString("description")))
+                .setColor(Color.decode(Config.GetString("unban-color")))
+                .addField(FormatText.Entry(Config.GetString("unbanned-by-line1")), FormatText.Entry(Config.GetString("unbanned-by-line2")), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(FormatText.Entry(instance.getConfig().getString("unbanned-on")), "")
+                .setFooter(FormatText.Entry(Config.GetString("unbanned-on")), "")
                 .setUrl("https://mcnames.net/username/" + target)
             );
         }
         if(type == BanType.ipban) {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(FormatText.Entry(instance.getConfig().getString("ip-banned-title")))
-                .setDescription(FormatText.Entry(instance.getConfig().getString("description")))
-                .setColor(Color.decode(instance.getConfig().getString("banip-color")))
-                .addField(FormatText.Entry(instance.getConfig().getString("reason-line1")), FormatText.Entry(instance.getConfig().getString("reason-line2")), false)
-                .addField(FormatText.Entry(instance.getConfig().getString("banned-by-line1")), FormatText.Entry(instance.getConfig().getString("banned-by-line2")), false)
-                .setFooter(FormatText.Entry(instance.getConfig().getString("banned-on")), "")
+                .setTitle(FormatText.Entry(Config.GetString("ip-banned-title")))
+                .setDescription(FormatText.Entry(Config.GetString("description")))
+                .setColor(Color.decode(Config.GetString("banip-color")))
+                .addField(FormatText.Entry(Config.GetString("reason-line1")), FormatText.Entry(Config.GetString("reason-line2")), false)
+                .addField(FormatText.Entry(Config.GetString("banned-by-line1")), FormatText.Entry(Config.GetString("banned-by-line2")), false)
+                .setFooter(FormatText.Entry(Config.GetString("banned-on")), "")
         	);
         }
         if(type == BanType.ipunban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(FormatText.Entry(instance.getConfig().getString("ip-unbanned-title")))
-                .setDescription(FormatText.Entry(instance.getConfig().getString("description")))
-                .setColor(Color.decode(instance.getConfig().getString("unbanip-color")))
-                .addField(FormatText.Entry(instance.getConfig().getString("unbanned-by-line1")), FormatText.Entry(instance.getConfig().getString("unbanned-by-line2")), false)
-                .setFooter(FormatText.Entry(instance.getConfig().getString("unbanned-on")), "")
+                .setTitle(FormatText.Entry(Config.GetString("ip-unbanned-title")))
+                .setDescription(FormatText.Entry(Config.GetString("description")))
+                .setColor(Color.decode(Config.GetString("unbanip-color")))
+                .addField(FormatText.Entry(Config.GetString("unbanned-by-line1")), FormatText.Entry(Config.GetString("unbanned-by-line2")), false)
+                .setFooter(FormatText.Entry(Config.GetString("unbanned-on")), "")
             );
         }
         try {
