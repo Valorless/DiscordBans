@@ -45,7 +45,7 @@ Within /plugins/DiscordBans/config.yml you'll find a 'message' section. You can 
 
 ## Configuration
 | Config Entry | Description | Default | Comment |
-| --- | --- | --- | --- |
+| --- | :---: | :---: | :---: |
 | webhook-url | Webhook URL found in the integrations section of a channel's settings. |  | If left blank, the plugin will disable itself until it has been set. |
 | bot-name | Name of the Webhook sending the message. | George | Leave blank to use the one specified in the integration section. |
 | bot-picture | Profile Picture of the Webhook. Must be a URL. | [Image](https://i.pinimg.com/originals/bf/23/ca/bf23ca87c2a867e2b3b991e76d982abd.jpg) | Leave blank to use the one specified in the integration section. |
