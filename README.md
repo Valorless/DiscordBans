@@ -17,6 +17,10 @@ Once a command is caught, information regarding the target, sender, reason and m
 
 - /db reload
   - Reloads config.yml
+- /db disable
+  - Disabled the plugin. Requires a reload or restart to re-enable.
+- /db debug
+  - Enable/Disable debugging for DiscordBans.
   
 ## Permissions
 
@@ -24,6 +28,10 @@ Once a command is caught, information regarding the target, sender, reason and m
   - Gives all DiscordBans permissions.
 - discordbans.reload
   - Allows usage of /db reload.
+- discordbans.disable
+  - Allows you to disable the plugin.
+- discordbans.debug
+  - Allows you to enable/disable debugging.
 
 ## Messages
 
