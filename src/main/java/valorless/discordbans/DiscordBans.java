@@ -23,7 +23,7 @@ public final class DiscordBans extends JavaPlugin implements Listener {
 	
 	@Override
     public void onEnable() {
-		Config.OnInitiate();
+		Config.Initiate();
 		
 		getServer().getPluginManager().registerEvents(new BanListener(), this);
 		getServer().getPluginManager().registerEvents(new CommandListener(), this);
@@ -46,6 +46,8 @@ public final class DiscordBans extends JavaPlugin implements Listener {
 		}
 		getCommand("db").setExecutor(this);
 		getCommand("db reload").setExecutor(this);
+		getCommand("db disable").setExecutor(this);
+		getCommand("db debug").setExecutor(this);
 		
 		if(!enabled) {
 			for(Player player:Bukkit.getServer().getOnlinePlayers()) //Message OPs on reload or start.

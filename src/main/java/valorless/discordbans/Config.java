@@ -12,7 +12,7 @@ public class Config {
 	public void OnEnable() {
 	}
 	
-	public static void OnInitiate() {
+	public static void Initiate() {
 		//plugin = DiscordBans.instance;
 		Load();
 		
