@@ -21,13 +21,13 @@ public class CommandListener implements Listener { // Primary objective of Comma
 		String[] args = event.getMessage().split("\\s+");
 		Player sender = event.getPlayer();
 		
-		if(args[0].equalsIgnoreCase("/db") && sender.hasPermission("discordbans.reload")) {
+		if(args[0].equalsIgnoreCase("/db")) {
 			if(args.length == 1) {
 			sender.sendMessage(Name + " DiscordBans by Valorless. Send bans, tempbans, and unbans to Discord.");
 			}
 			else 
 			if (args.length >= 2){
-				if(args[1].equalsIgnoreCase("reload")) {
+				if(args[1].equalsIgnoreCase("reload") && sender.hasPermission("discordbans.reload")) {
 					Config.Reload();
 					sender.sendMessage(Name +" §aReloaded.");
 					Logger.getLogger("Minecraft").info(Name + " §aReloaded!");
@@ -36,12 +36,12 @@ public class CommandListener implements Listener { // Primary objective of Comma
 						DiscordBans.enabled = false;
 					}
 				}
-				if(args[1].equalsIgnoreCase("disable")) {
+				if(args[1].equalsIgnoreCase("disable") && sender.hasPermission("discordbans.disable")) {
 					sender.sendMessage(Name +" §cDisabled!");
 					Logger.getLogger("Minecraft").info("§cDisabled!");
 					plugin.getServer().getPluginManager().disablePlugin(plugin);
 				}
-				if(args[1].equalsIgnoreCase("debug")) {
+				if(args[1].equalsIgnoreCase("debug") && sender.hasPermission("discordbans.debug")) {
 					if(Config.GetBool("Debug") == false) {
 						Config.SetBool("Debug", true);
 						sender.sendMessage(Name +" §eDebugging enabled.");
