@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
 public final class DiscordBans extends JavaPlugin implements Listener {
 	public static JavaPlugin plugin;
 	public enum BanType { ban, unban, tempban, ipban, ipunban }
@@ -40,7 +39,9 @@ public final class DiscordBans extends JavaPlugin implements Listener {
 			enabled = false;
 		}
 		else {
-			Log.Info("§aEnabled!");
+			if(Config.GetBool("debug")) {
+				Log.Info("§aEnabled!");
+			}
 		}
 		getCommand("db").setExecutor(this);
 		getCommand("db reload").setExecutor(this);
@@ -59,7 +60,9 @@ public final class DiscordBans extends JavaPlugin implements Listener {
     
     @Override
     public void onDisable() {
-		Log.Info("§cDisabled!");
+    	if(Config.GetBool("debug")) {
+    		Log.Info("§cDisabled!");
+    	}
     }
 
     
