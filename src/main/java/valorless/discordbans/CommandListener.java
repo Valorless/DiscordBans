@@ -1,7 +1,5 @@
 package valorless.discordbans;
 
-import java.util.logging.Logger;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +15,6 @@ public class CommandListener implements Listener { // Primary objective of Comma
 	
 	@EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-		//Log("command1! " + event.getMessage());
 		String[] args = event.getMessage().split("\\s+");
 		Player sender = event.getPlayer();
 		
@@ -30,26 +27,26 @@ public class CommandListener implements Listener { // Primary objective of Comma
 				if(args[1].equalsIgnoreCase("reload") && sender.hasPermission("discordbans.reload")) {
 					Config.Reload();
 					sender.sendMessage(Name +" §aReloaded.");
-					Logger.getLogger("Minecraft").info(Name + " §aReloaded!");
+					Log.Info(Name + " §aReloaded!");
 					if(Config.GetString("webhook-url") == "") {
-						Logger.getLogger("Minecraft").info("§cDisabled!");
+						Log.Info("§cDisabled!");
 						DiscordBans.enabled = false;
 					}
 				}
 				if(args[1].equalsIgnoreCase("disable") && sender.hasPermission("discordbans.disable")) {
 					sender.sendMessage(Name +" §cDisabled!");
-					Logger.getLogger("Minecraft").info("§cDisabled!");
+					Log.Info("§cDisabled!");
 					plugin.getServer().getPluginManager().disablePlugin(plugin);
 				}
 				if(args[1].equalsIgnoreCase("debug") && sender.hasPermission("discordbans.debug")) {
 					if(Config.GetBool("Debug") == false) {
 						Config.SetBool("Debug", true);
 						sender.sendMessage(Name +" §eDebugging enabled.");
-						Logger.getLogger("Minecraft").info("§eDebugging Enabled!");
+						Log.Info("§eDebugging Enabled!");
 					} else {
 						Config.SetBool("Debug", false);
 						sender.sendMessage(Name +" §eDebugging disabled.");
-						Logger.getLogger("Minecraft").info("§eDebugging Disabled!");
+						Log.Info("§eDebugging Disabled!");
 					}
 				}
 			}

@@ -1,8 +1,6 @@
 package valorless.discordbans;
 
 import java.io.File;
-import java.util.logging.Logger;
-
 import org.bukkit.Color;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,11 +19,11 @@ public class Config {
 	public static void Load() {
     	File configFile = new File(plugin.getDataFolder(), "config.yml");
     	if(!configFile.exists()) {
-    		Log("No config exists, creating new.");
+    		Log.Info("No config exists, creating new.");
     		plugin.saveDefaultConfig();
     	}
     	else {
-    		Log("Loading config.");
+    		Log.Info("Loading config.");
     		plugin.getConfig();
     	}
     }
@@ -88,13 +86,5 @@ public class Config {
 	public static void SetColor(String key, Color value) {
 		plugin.getConfig().set(key, value);
 	}
-	
-	
-	
-	public static void Log(String msg) {
-    	if(GetBool("debug") == true) {
-    		Logger.getLogger("Minecraft").info(msg);
-    	}
-    }
 	
 }

@@ -6,8 +6,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -30,7 +28,7 @@ public class BanListener implements Listener { // Primary objective of BanListen
 		
 		if(DiscordBans.enabled == false) {
 			sender.sendMessage(Name + " Please set me up before use, I have disabled myself.");
-			Logger.getLogger("Minecraft").log(Level.WARNING, "Please change my config.yml before using me.\nYou can reload me when needed with /db reload.");
+			Log.Warning("Please change my config.yml before using me.\nYou can reload me when needed with /db reload.");
 		} 
 		else {
 			if(args[0].equalsIgnoreCase("/ban") && args.length >= 2 && Config.GetBool("bans") == true) {
@@ -103,15 +101,6 @@ public class BanListener implements Listener { // Primary objective of BanListen
 		}
     }
 	
-	public void Log(String msg) {
-		if(plugin != null) {
-			if(Config.GetBool("debug") == true) {
-				Logger.getLogger("Minecraft").info(msg);
-    		}
-		}
-	}
-	
-	
 	public void SendWebhook(BanType type, String target, String sender, String reason, Date date, String duration) {
 		FormatText.Format.target = target;
 		FormatText.Format.sender = sender;
@@ -119,13 +108,13 @@ public class BanListener implements Listener { // Primary objective of BanListen
 		FormatText.Format.date = date.toString();
 		FormatText.Format.duration = duration;
 		
-    	Log("Attempting to send embed to discord!");
-    	Log("Type: " + type.name());
-    	Log("Target: " + target);
-    	Log("Sender: " + sender);
-    	Log("Reason: " + reason);
-    	Log("Date: " + date.toString());
-    	Log("Duration: " + duration);
+    	Log.Info("Attempting to send embed to discord!");
+    	Log.Info("Type: " + type.name());
+    	Log.Info("Target: " + target);
+    	Log.Info("Sender: " + sender);
+    	Log.Info("Reason: " + reason);
+    	Log.Info("Date: " + date.toString());
+    	Log.Info("Duration: " + duration);
     	DiscordWebhook webhook = new DiscordWebhook(Config.GetString("webhook-url"));
         webhook.setContent(FormatText.Entry(Config.GetString("bot-message")));
         webhook.setAvatarUrl(Config.GetString("bot-picture"));
@@ -190,11 +179,11 @@ public class BanListener implements Listener { // Primary objective of BanListen
             );
         }
         try {
-        	Log("Executing webhook.");
+        	Log.Info("Executing webhook.");
 			webhook.execute();
 		} catch (IOException e) {
 			e.printStackTrace();
-			Log("&c Connection failed.");
+			Log.Info("&c Connection failed.");
 		}
     }
 }

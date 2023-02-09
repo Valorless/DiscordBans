@@ -1,7 +1,5 @@
 package valorless.discordbans;
 
-import java.util.logging.Level;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -28,21 +26,21 @@ public final class DiscordBans extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new BanListener(), this);
 		getServer().getPluginManager().registerEvents(new CommandListener(), this);
 		
-		getLogger().info("Bans: " + Config.GetBool("bans"));
-		getLogger().info("Tempbans: " + Config.GetBool("tempbans"));
-		getLogger().info("Unbans: " + Config.GetBool("unbans"));
-		getLogger().info("IP-Bans: " + Config.GetBool("banips"));
-		getLogger().info("IP-Unbans: " + Config.GetBool("unbanips"));
+		Log.Info("Bans: " + Config.GetBool("bans"));
+		Log.Info("Tempbans: " + Config.GetBool("tempbans"));
+		Log.Info("Unbans: " + Config.GetBool("unbans"));
+		Log.Info("IP-Bans: " + Config.GetBool("banips"));
+		Log.Info("IP-Unbans: " + Config.GetBool("unbanips"));
 		if(Config.GetBool("debug")) {
-		Log("Debugging enabled.");
+		Log.Info("Debugging enabled.");
 		}
 		if(Config.GetString("webhook-url") == "") {
-			getLogger().log(Level.WARNING, "Please change my config.yml before using me.\nYou can reload me when needed with /db reload.");
-			getLogger().info("§cDisabled!");
+			Log.Warning("Please change my config.yml before using me.\nYou can reload me when needed with /db reload.");
+			Log.Info("§cDisabled!");
 			enabled = false;
 		}
 		else {
-			getLogger().info("§aEnabled!");
+			Log.Info("§aEnabled!");
 		}
 		getCommand("db").setExecutor(this);
 		getCommand("db reload").setExecutor(this);
@@ -61,16 +59,9 @@ public final class DiscordBans extends JavaPlugin implements Listener {
     
     @Override
     public void onDisable() {
-		getLogger().info("§cDisabled!");
+		Log.Info("§cDisabled!");
     }
-    
-    
-    
-    public void Log(String msg) {
-    	if(Config.GetBool("debug") == true) {
-    		getLogger().info(msg);
-    	}
-    }
+
     
 }
 
