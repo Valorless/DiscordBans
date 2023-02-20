@@ -1,4 +1,5 @@
 # DiscordBans
+![Versions](https://img.shields.io/badge/Versions-1.18%20--%201.19%2B-brightgreen?style=flat)<br>
 
 DB catches the following commands and sends it to discord via webhook.
 | Command | From |
