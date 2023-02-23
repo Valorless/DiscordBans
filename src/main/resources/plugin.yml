@@ -3,6 +3,7 @@ main: valorless.discordbans.DiscordBans
 version: version-number
 author: Valorless
 api-version: 1.18
+depend: [ValorlessUtils]
 commands:
   db:
     description: Main command.
