@@ -19,6 +19,7 @@ public class BanListener implements Listener { // Primary objective of BanListen
 	String Name = "§7[§4DiscordBans§7]§r";
 	
 	public void onEnable() {
+		plugin = DiscordBans.plugin;
 	}
 	
 	@EventHandler
@@ -116,67 +117,68 @@ public class BanListener implements Listener { // Primary objective of BanListen
     	Log.Info(plugin, "Reason: " + reason);
     	Log.Info(plugin, "Date: " + date.toString());
     	Log.Info(plugin, "Duration: " + duration);
+    	
     	DiscordWebhook webhook = new DiscordWebhook(Config.GetString(plugin, "webhook-url"));
-        webhook.setContent(Lang.Get(plugin, Config.GetString(plugin, "bot-message")));
+        webhook.setContent(Lang.Get(plugin, "bot-message"));
         webhook.setAvatarUrl(Config.GetString(plugin, "bot-picture"));
         webhook.setUsername(Config.GetString(plugin, "bot-name"));
         webhook.setTts(false);
         if(type == BanType.ban) {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, Config.GetString(plugin, "banned-title")))
-                .setDescription(Lang.Get(plugin, Config.GetString(plugin, "description")))
+                .setTitle(Lang.Get(plugin, "banned-title"))
+                .setDescription(Lang.Get(plugin, "description"))
                 .setColor(Color.decode(Config.GetString(plugin, "ban-color")))
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "reason-line1")), Lang.Get(plugin, Config.GetString(plugin, "reason-line2")), false)
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "banned-by-line1")), Lang.Get(plugin, Config.GetString(plugin, "banned-by-line2")), false)
+                .addField(Lang.Get(plugin, "reason-line1"), Lang.Get(plugin, "reason-line2"), false)
+                .addField(Lang.Get(plugin, "banned-by-line1"), Lang.Get(plugin, "banned-by-line2"), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(Lang.Get(plugin, Config.GetString(plugin, "banned-on")), "")
+                .setFooter(Lang.Get(plugin, "banned-on"), "")
                 .setUrl("https://mcnames.net/username/" + target)
         	);
         }
         if(type == BanType.tempban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                 .setTitle(Lang.Get(plugin, Config.GetString(plugin, "tempbanned-title")))
-                .setDescription(Lang.Get(plugin, Config.GetString(plugin, "description")))
+                .setTitle(Lang.Get(plugin, "tempbanned-title"))
+                .setDescription(Lang.Get(plugin, "description"))
                 .setColor(Color.decode(Config.GetString(plugin, "tempban-color")))
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "reason-line1")), Lang.Get(plugin, Config.GetString(plugin, "reason-line2")), false)
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "banned-by-line1")), Lang.Get(plugin, Config.GetString(plugin, "banned-by-line2")), false)
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "duration-line1")), Lang.Get(plugin, Config.GetString(plugin, "duration-line2")), false)
+                .addField(Lang.Get(plugin, "reason-line1"), Lang.Get(plugin, "reason-line2"), false)
+                .addField(Lang.Get(plugin, "banned-by-line1"), Lang.Get(plugin, "banned-by-line2"), false)
+                .addField(Lang.Get(plugin, "duration-line1"), Lang.Get(plugin, "duration-line2"), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(Lang.Get(plugin, Config.GetString(plugin, "banned-on")), "")
+                .setFooter(Lang.Get(plugin, "banned-on"), "")
                 .setUrl("https://mcnames.net/username/" + target)
             );
         }
         if(type == BanType.unban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, Config.GetString(plugin, "unbanned-title")))
-                .setDescription(Lang.Get(plugin, Config.GetString(plugin, "description")))
+                .setTitle(Lang.Get(plugin, "unbanned-title"))
+                .setDescription(Lang.Get(plugin, "description"))
                 .setColor(Color.decode(Config.GetString(plugin, "unban-color")))
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "unbanned-by-line1")), Lang.Get(plugin, Config.GetString(plugin, "unbanned-by-line2")), false)
+                .addField(Lang.Get(plugin, "unbanned-by-line1"), Lang.Get(plugin, "unbanned-by-line2"), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(Lang.Get(plugin, Config.GetString(plugin, "unbanned-on")), "")
+                .setFooter(Lang.Get(plugin, "unbanned-on"), "")
                 .setUrl("https://mcnames.net/username/" + target)
             );
         }
         if(type == BanType.ipban) {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, Config.GetString(plugin, "ip-banned-title")))
-                .setDescription(Lang.Get(plugin, Config.GetString(plugin, "description")))
+                .setTitle(Lang.Get(plugin, "ip-banned-title"))
+                .setDescription(Lang.Get(plugin, "description"))
                 .setColor(Color.decode(Config.GetString(plugin, "banip-color")))
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "reason-line1")), Lang.Get(plugin, Config.GetString(plugin, "reason-line2")), false)
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "banned-by-line1")), Lang.Get(plugin, Config.GetString(plugin, "banned-by-line2")), false)
-                .setFooter(Lang.Get(plugin, Config.GetString(plugin, "banned-on")), "")
+                .addField(Lang.Get(plugin, "reason-line1"), Lang.Get(plugin, "reason-line2"), false)
+                .addField(Lang.Get(plugin, "banned-by-line1"), Lang.Get(plugin, "banned-by-line2"), false)
+                .setFooter(Lang.Get(plugin, "banned-on"), "")
         	);
         }
         if(type == BanType.ipunban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, Config.GetString(plugin, "ip-unbanned-title")))
-                .setDescription(Lang.Get(plugin, Config.GetString(plugin, "description")))
+                .setTitle(Lang.Get(plugin, "ip-unbanned-title"))
+                .setDescription(Lang.Get(plugin, "description"))
                 .setColor(Color.decode(Config.GetString(plugin, "unbanip-color")))
-                .addField(Lang.Get(plugin, Config.GetString(plugin, "unbanned-by-line1")), Lang.Get(plugin, Config.GetString(plugin, "unbanned-by-line2")), false)
-                .setFooter(Lang.Get(plugin, Config.GetString(plugin, "unbanned-on")), "")
+                .addField(Lang.Get(plugin, "unbanned-by-line1"), Lang.Get(plugin, "unbanned-by-line2"), false)
+                .setFooter(Lang.Get(plugin, "unbanned-on"), "")
             );
         }
         try {

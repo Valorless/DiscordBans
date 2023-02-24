@@ -68,6 +68,7 @@ public final class DiscordBans extends JavaPlugin implements Listener {
 		Log.Info(plugin, "Unbans: " + Config.GetBool(plugin, "unbans"));
 		Log.Info(plugin, "IP-Bans: " + Config.GetBool(plugin, "banips"));
 		Log.Info(plugin, "IP-Unbans: " + Config.GetBool(plugin, "unbanips"));
+		
 		if(Config.GetBool(plugin, "debug")) {
 		Log.Info(plugin, "Debugging enabled.");
 		}
