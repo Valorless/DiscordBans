@@ -3,9 +3,11 @@ valorless\discordbans\DiscordWebhook$EmbedObject$Footer.class
 valorless\discordbans\DiscordWebhook$EmbedObject$Author.class
 valorless\discordbans\DiscordWebhook$1.class
 valorless\discordbans\DiscordWebhook.class
+valorless\discordbans\Lang$Placeholders.class
 valorless\discordbans\CommandListener.class
 valorless\discordbans\DiscordWebhook$EmbedObject$Thumbnail.class
 valorless\discordbans\DiscordWebhook$JSONObject.class
+valorless\discordbans\Lang.class
 valorless\discordbans\DiscordWebhook$EmbedObject$Field.class
 valorless\discordbans\DiscordWebhook$EmbedObject.class
 valorless\discordbans\DiscordWebhook$EmbedObject$Image.class

@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 
 public class BanListener implements Listener { // Primary objective of BanListener is to listen for Ban commands.
 	public static JavaPlugin plugin;
@@ -24,10 +26,22 @@ public class BanListener implements Listener { // Primary objective of BanListen
 	
 	@EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-		//Log("command1! " + event.getMessage());
 		String[] args = event.getMessage().split("\\s+");
-		Player sender = event.getPlayer();
-		
+		//Player sender = event.getPlayer();
+		CommandSender sender = event.getPlayer();
+		ProcessCommand(args, sender, false);
+	}
+	
+	@EventHandler
+    public void onServerCommand(ServerCommandEvent event) {
+		String[] args = event.getCommand().split("\\s+");
+		CommandSender console = event.getSender();
+		args[0] = "/" + args[0];
+		ProcessCommand(args, console, true);
+	}
+	
+	@EventHandler
+	public void ProcessCommand(String[] args, CommandSender sender, Boolean console) {
 		if(DiscordBans.enabled == false) {
 			sender.sendMessage(Name + " Please set me up before use, I have disabled myself.");
 			Log.Warning(plugin, "Please change my config.yml before using me.\nYou can reload me when needed with /db reload.");
@@ -39,10 +53,20 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					String target = args[1];
 					if (target != "") {
 						if(args.length >= 3) {
-							SendWebhook(BanType.ban, target, sender.getName(), args[2], now, "");
+							String reason = "";
+							for(int i = 2; i < args.length; i++) { reason = reason + " " + args[i]; }
+							if(console) {
+								SendWebhook(BanType.ban, target, "Console", reason, now, "");
+							} else {
+								SendWebhook(BanType.ban, target, sender.getName(), reason, now, "");
+							}
 						}
 						else {
-							SendWebhook(BanType.ban, target, sender.getName(), "No reason given.", now, "");
+							if(console) { 
+								SendWebhook(BanType.ban, target, "Console", "No reason given.", now, "");
+							} else {
+								SendWebhook(BanType.ban, target, sender.getName(), "No reason given.", now, "");
+							}
 						}
 					}
 				}
@@ -56,10 +80,20 @@ public class BanListener implements Listener { // Primary objective of BanListen
 							String target = args[1];
 							if (target != "") {
 								if(args.length >= 4) {
-									SendWebhook(BanType.tempban, target, sender.getName(), args[3], now, args[2]);
+									String reason = "";
+									for(int i = 3; i < args.length; i++) { reason = reason + " " + args[i]; }
+									if(console) { 
+										SendWebhook(BanType.tempban, target, "Console", reason, now, "");
+									} else {
+										SendWebhook(BanType.tempban, target, sender.getName(), reason, now, args[2]);
+									}
 								}
 								else {
-									SendWebhook(BanType.tempban, target, sender.getName(), "No reason given.", now, args[2]);
+									if(console) { 
+										SendWebhook(BanType.tempban, target, "Console", "No reason given.", now, "");
+									} else {
+										SendWebhook(BanType.tempban, target, sender.getName(), "No reason given.", now, args[2]);
+									}
 								}
 							}
 					    }
@@ -72,7 +106,11 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					Date now = new Date();
 					String target = args[1];
 					if (target != "") {
-						SendWebhook(BanType.unban, target, sender.getName(), "", now, "");
+						if(console) { 
+							SendWebhook(BanType.unban, target, "Console", "", now, "");
+						} else {
+							SendWebhook(BanType.unban, target, sender.getName(), "", now, "");
+						}
 					}
 				}
 			}
@@ -82,10 +120,20 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					String target = args[1];
 					if (target != "") {
 						if(args.length >= 3) {
-							SendWebhook(BanType.ipban, target, sender.getName(), args[2], now, "");
+							String reason = "";
+							for(int i = 2; i < args.length; i++) { reason = reason + " " + args[i]; }
+							if(console) { 
+								SendWebhook(BanType.ipban, target, "Console", reason, now, "");
+							} else {
+								SendWebhook(BanType.ipban, target, sender.getName(), reason, now, "");
+							}
 						}
 						else {
-							SendWebhook(BanType.ipban, target, sender.getName(), "No reason given.", now, "");
+							if(console) { 
+								SendWebhook(BanType.ipban, target, "Console", "No reason given.", now, "");
+							} else {
+								SendWebhook(BanType.ipban, target, sender.getName(), "No reason given.", now, "");
+							}
 						}
 					}
 				}
@@ -96,7 +144,11 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					Date now = new Date();
 					String target = args[1];
 					if (target != "") {
-						SendWebhook(BanType.ipunban, target, sender.getName(), "", now, "");
+						if(console) { 
+							SendWebhook(BanType.ipunban, target, "Console", "", now, "");
+						} else {
+							SendWebhook(BanType.ipunban, target, sender.getName(), "", now, "");
+						}
 					}
 				}
 			}
@@ -104,11 +156,11 @@ public class BanListener implements Listener { // Primary objective of BanListen
     }
 	
 	public void SendWebhook(BanType type, String target, String sender, String reason, Date date, String duration) {
-		Lang.AddPlaceholder(plugin, "%target%", target);
-		Lang.AddPlaceholder(plugin, "%sender%", sender);
-		Lang.AddPlaceholder(plugin, "%reason%", reason);
-		Lang.AddPlaceholder(plugin, "%date%", date.toString());
-		Lang.AddPlaceholder(plugin, "%duration%", duration);
+		Lang.Placeholders.target = target;
+		Lang.Placeholders.sender = sender;
+		Lang.Placeholders.reason = reason;
+		Lang.Placeholders.date = date.toString();
+		Lang.Placeholders.duration = duration;
 		
     	Log.Info(plugin, "Attempting to send embed to discord!");
     	Log.Info(plugin, "Type: " + type.name());

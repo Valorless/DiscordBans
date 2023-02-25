@@ -57,9 +57,7 @@ public final class DiscordBans extends JavaPlugin implements Listener {
 		Config.AddValidationEntry(plugin, "duration-line1", "Duration: ");
 		Config.AddValidationEntry(plugin, "duration-line2", "%duration%");
 		Config.AddValidationEntry(plugin, "banned-on", "Banned on %date%");
-		
-		Lang.AddPlaceholder(plugin, "%plugin%", "&7[&4DiscordBans&9]&r");
-		
+				
 		getServer().getPluginManager().registerEvents(new BanListener(), this);
 		getServer().getPluginManager().registerEvents(new CommandListener(), this);
 		
