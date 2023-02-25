@@ -83,14 +83,14 @@ public class BanListener implements Listener { // Primary objective of BanListen
 									String reason = "";
 									for(int i = 3; i < args.length; i++) { reason = reason + " " + args[i]; }
 									if(console) { 
-										SendWebhook(BanType.tempban, target, "Console", reason, now, "");
+										SendWebhook(BanType.tempban, target, "Console", reason, now, args[2]);
 									} else {
 										SendWebhook(BanType.tempban, target, sender.getName(), reason, now, args[2]);
 									}
 								}
 								else {
 									if(console) { 
-										SendWebhook(BanType.tempban, target, "Console", "No reason given.", now, "");
+										SendWebhook(BanType.tempban, target, "Console", "No reason given.", now, args[2]);
 									} else {
 										SendWebhook(BanType.tempban, target, sender.getName(), "No reason given.", now, args[2]);
 									}
