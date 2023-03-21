@@ -2,6 +2,7 @@ name: DiscordBans
 main: valorless.discordbans.DiscordBans
 version: version-number
 author: Valorless
+depend: [ValorlessUtils]
 api-version: 1.18
 commands:
   db:

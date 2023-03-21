@@ -1,7 +1,6 @@
 package valorless.discordbans;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -33,7 +32,6 @@ public class CommandListener implements Listener { // Primary objective of Comma
 		ProcessCommand(args, console, true);
 	}
 	
-	@EventHandler
 	public void ProcessCommand(String[] args, CommandSender sender, Boolean console) {
 		
 		if(args[0].equalsIgnoreCase("/db")) {			
@@ -43,10 +41,11 @@ public class CommandListener implements Listener { // Primary objective of Comma
 			else 
 			if (args.length >= 2){
 				if(args[1].equalsIgnoreCase("reload") && sender.hasPermission("discordbans.reload")) {
-					Config.Reload(plugin);
+					DiscordBans.config.Reload();
+					Lang.messages.Reload();
 					sender.sendMessage(Name +" §aReloaded.");
 					if(!console) { Log.Info(plugin, "§aReloaded!"); }
-					if(Config.GetString(plugin, "webhook-url") == "") {
+					if(DiscordBans.config.GetString("webhook-url") == "") {
 						Log.Info(plugin, "Disabled!");
 						DiscordBans.enabled = false;
 					}
@@ -57,12 +56,12 @@ public class CommandListener implements Listener { // Primary objective of Comma
 					plugin.getServer().getPluginManager().disablePlugin(plugin);
 				}
 				if(args[1].equalsIgnoreCase("debug") && sender.hasPermission("discordbans.debug")) {
-					if(Config.GetBool(plugin, "Debug") == false) {
-						Config.SetBool(plugin, "Debug", true);
+					if(DiscordBans.config.GetBool("Debug") == false) {
+						DiscordBans.config.Set("Debug", true);
 						sender.sendMessage(Name + " §eDebugging enabled.");
 						if(!console) { Log.Info(plugin, "§eDebugging Enabled!"); }
 					} else {
-						Config.SetBool(plugin, "Debug", false);
+						DiscordBans.config.Set("Debug", false);
 						sender.sendMessage(Name + " §eDebugging disabled.");
 						if(!console) { Log.Info(plugin, "§eDebugging Disabled!"); }
 					}

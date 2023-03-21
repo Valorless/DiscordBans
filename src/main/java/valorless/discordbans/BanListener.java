@@ -40,14 +40,13 @@ public class BanListener implements Listener { // Primary objective of BanListen
 		ProcessCommand(args, console, true);
 	}
 	
-	@EventHandler
 	public void ProcessCommand(String[] args, CommandSender sender, Boolean console) {
 		if(DiscordBans.enabled == false) {
 			sender.sendMessage(Name + " Please set me up before use, I have disabled myself.");
-			Log.Warning(plugin, "Please change my config.yml before using me.\nYou can reload me when needed with /db reload.");
+			Log.Warning(plugin, "Please change my DiscordBans.config.yml before using me.\nYou can reload me when needed with /db reload.");
 		} 
 		else {
-			if(args[0].equalsIgnoreCase("/ban") && args.length >= 2 && Config.GetBool(plugin, "bans") == true) {
+			if(args[0].equalsIgnoreCase("/ban") && args.length >= 2 && DiscordBans.config.GetBool("bans") == true) {
 				if(sender.hasPermission("minecraft.command.ban") || sender.hasPermission("essentials.ban")) {
 					Date now = new Date();
 					String target = args[1];
@@ -71,7 +70,7 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					}
 				}
 			}
-			if(args[0].equalsIgnoreCase("/tempban") && args.length >= 3 && Config.GetBool(plugin, "tempbans") == true) {
+			if(args[0].equalsIgnoreCase("/tempban") && args.length >= 3 && DiscordBans.config.GetBool("tempbans") == true) {
 				if(sender.hasPermission("essentials.tempban")) {
 					for(Player entry:Bukkit.getServer().getOnlinePlayers())
 					{
@@ -100,8 +99,8 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					}
 				}
 			}
-			if(args[0].equalsIgnoreCase("/unban") && args.length >= 2 && Config.GetBool(plugin, "unbans") == true || 
-			args[0].equalsIgnoreCase("/pardon") && args.length >= 2 && Config.GetBool(plugin, "unbans") == true) {
+			if(args[0].equalsIgnoreCase("/unban") && args.length >= 2 && DiscordBans.config.GetBool("unbans") == true || 
+			args[0].equalsIgnoreCase("/pardon") && args.length >= 2 && DiscordBans.config.GetBool("unbans") == true) {
 				if(sender.hasPermission("minecraft.command.pardon") || sender.hasPermission("essentials.unban")) {
 					Date now = new Date();
 					String target = args[1];
@@ -114,7 +113,7 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					}
 				}
 			}
-			if(args[0].equalsIgnoreCase("/banip") && args.length >= 2 && Config.GetBool(plugin, "banips") == true) {
+			if(args[0].equalsIgnoreCase("/banip") && args.length >= 2 && DiscordBans.config.GetBool("banips") == true) {
 				if(sender.hasPermission("essentials.banip")) {
 					Date now = new Date();
 					String target = args[1];
@@ -138,8 +137,8 @@ public class BanListener implements Listener { // Primary objective of BanListen
 					}
 				}
 			}
-			if(args[0].equalsIgnoreCase("/unbanip") && args.length >= 2 && Config.GetBool(plugin, "unbanips") == true ||
-			args[0].equalsIgnoreCase("/pardon-ip") && args.length >= 2 && Config.GetBool(plugin, "unbanips") == true) {
+			if(args[0].equalsIgnoreCase("/unbanip") && args.length >= 2 && DiscordBans.config.GetBool("unbanips") == true ||
+			args[0].equalsIgnoreCase("/pardon-ip") && args.length >= 2 && DiscordBans.config.GetBool("unbanips") == true) {
 				if(sender.hasPermission("minecraft.command.pardon-ip") || sender.hasPermission("essentials.unbanip")) {
 					Date now = new Date();
 					String target = args[1];
@@ -170,67 +169,67 @@ public class BanListener implements Listener { // Primary objective of BanListen
     	Log.Info(plugin, "Date: " + date.toString());
     	Log.Info(plugin, "Duration: " + duration);
     	
-    	DiscordWebhook webhook = new DiscordWebhook(Config.GetString(plugin, "webhook-url"));
-        webhook.setContent(Lang.Get(plugin, "bot-message"));
-        webhook.setAvatarUrl(Config.GetString(plugin, "bot-picture"));
-        webhook.setUsername(Config.GetString(plugin, "bot-name"));
+    	DiscordWebhook webhook = new DiscordWebhook(DiscordBans.config.GetString("webhook-url"));
+        webhook.setContent(Lang.Get("bot-message"));
+        webhook.setAvatarUrl(DiscordBans.config.GetString("bot-picture"));
+        webhook.setUsername(DiscordBans.config.GetString("bot-name"));
         webhook.setTts(false);
         if(type == BanType.ban) {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, "banned-title"))
-                .setDescription(Lang.Get(plugin, "description"))
-                .setColor(Color.decode(Config.GetString(plugin, "ban-color")))
-                .addField(Lang.Get(plugin, "reason-line1"), Lang.Get(plugin, "reason-line2"), false)
-                .addField(Lang.Get(plugin, "banned-by-line1"), Lang.Get(plugin, "banned-by-line2"), false)
+                .setTitle(Lang.Get("banned-title"))
+                .setDescription(Lang.Get("description"))
+                .setColor(Color.decode(DiscordBans.config.GetString("ban-color")))
+                .addField(Lang.Get("reason-line1"), Lang.Get("reason-line2"), false)
+                .addField(Lang.Get("banned-by-line1"), Lang.Get("banned-by-line2"), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(Lang.Get(plugin, "banned-on"), "")
+                .setFooter(Lang.Get("banned-on"), "")
                 .setUrl("https://mcnames.net/username/" + target)
         	);
         }
         if(type == BanType.tempban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, "tempbanned-title"))
-                .setDescription(Lang.Get(plugin, "description"))
-                .setColor(Color.decode(Config.GetString(plugin, "tempban-color")))
-                .addField(Lang.Get(plugin, "reason-line1"), Lang.Get(plugin, "reason-line2"), false)
-                .addField(Lang.Get(plugin, "banned-by-line1"), Lang.Get(plugin, "banned-by-line2"), false)
-                .addField(Lang.Get(plugin, "duration-line1"), Lang.Get(plugin, "duration-line2"), false)
+                .setTitle(Lang.Get("tempbanned-title"))
+                .setDescription(Lang.Get("description"))
+                .setColor(Color.decode(DiscordBans.config.GetString("tempban-color")))
+                .addField(Lang.Get("reason-line1"), Lang.Get("reason-line2"), false)
+                .addField(Lang.Get("banned-by-line1"), Lang.Get("banned-by-line2"), false)
+                .addField(Lang.Get("duration-line1"), Lang.Get("duration-line2"), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(Lang.Get(plugin, "banned-on"), "")
+                .setFooter(Lang.Get("banned-on"), "")
                 .setUrl("https://mcnames.net/username/" + target)
             );
         }
         if(type == BanType.unban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, "unbanned-title"))
-                .setDescription(Lang.Get(plugin, "description"))
-                .setColor(Color.decode(Config.GetString(plugin, "unban-color")))
-                .addField(Lang.Get(plugin, "unbanned-by-line1"), Lang.Get(plugin, "unbanned-by-line2"), false)
+                .setTitle(Lang.Get("unbanned-title"))
+                .setDescription(Lang.Get("description"))
+                .setColor(Color.decode(DiscordBans.config.GetString("unban-color")))
+                .addField(Lang.Get("unbanned-by-line1"), Lang.Get("unbanned-by-line2"), false)
                 .setThumbnail("https://minotar.net/armor/bust/" + target + "/100.png")
-                .setFooter(Lang.Get(plugin, "unbanned-on"), "")
+                .setFooter(Lang.Get("unbanned-on"), "")
                 .setUrl("https://mcnames.net/username/" + target)
             );
         }
         if(type == BanType.ipban) {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, "ip-banned-title"))
-                .setDescription(Lang.Get(plugin, "description"))
-                .setColor(Color.decode(Config.GetString(plugin, "banip-color")))
-                .addField(Lang.Get(plugin, "reason-line1"), Lang.Get(plugin, "reason-line2"), false)
-                .addField(Lang.Get(plugin, "banned-by-line1"), Lang.Get(plugin, "banned-by-line2"), false)
-                .setFooter(Lang.Get(plugin, "banned-on"), "")
+                .setTitle(Lang.Get("ip-banned-title"))
+                .setDescription(Lang.Get("description"))
+                .setColor(Color.decode(DiscordBans.config.GetString("banip-color")))
+                .addField(Lang.Get("reason-line1"), Lang.Get("reason-line2"), false)
+                .addField(Lang.Get("banned-by-line1"), Lang.Get("banned-by-line2"), false)
+                .setFooter(Lang.Get("banned-on"), "")
         	);
         }
         if(type == BanType.ipunban)
         {
         	webhook.addEmbed(new DiscordWebhook.EmbedObject()
-                .setTitle(Lang.Get(plugin, "ip-unbanned-title"))
-                .setDescription(Lang.Get(plugin, "description"))
-                .setColor(Color.decode(Config.GetString(plugin, "unbanip-color")))
-                .addField(Lang.Get(plugin, "unbanned-by-line1"), Lang.Get(plugin, "unbanned-by-line2"), false)
-                .setFooter(Lang.Get(plugin, "unbanned-on"), "")
+                .setTitle(Lang.Get("ip-unbanned-title"))
+                .setDescription(Lang.Get("description"))
+                .setColor(Color.decode(DiscordBans.config.GetString("unbanip-color")))
+                .addField(Lang.Get("unbanned-by-line1"), Lang.Get("unbanned-by-line2"), false)
+                .setFooter(Lang.Get("unbanned-on"), "")
             );
         }
         try {

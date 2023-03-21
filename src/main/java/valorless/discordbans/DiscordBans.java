@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import valorless.valorlessutils.ValorlessUtils.*;
+import valorless.valorlessutils.config.Config;
 
 
 public final class DiscordBans extends JavaPlugin implements Listener {
@@ -13,70 +14,72 @@ public final class DiscordBans extends JavaPlugin implements Listener {
 	public enum BanType { ban, unban, tempban, ipban, ipunban }
 	String Name = "§7[§4DiscordBans§7]§r";
 	public static Boolean enabled = true;
+	public static Config config;
 	
 	public void onLoad() {
 		plugin = this;
 		BanListener.plugin = this;
 		CommandListener.plugin = this;
+		config = new Config(this, "config.yml");
+		CommandListener.plugin = this;
+		Lang.messages = new Config(this, "messages.yml");
 	}
 	
 	@Override
     public void onEnable() {
-		Config.Load(plugin);
-		
 		//Config
-		Config.AddValidationEntry(plugin, "webhook-url", "");
-		Config.AddValidationEntry(plugin, "bot-name", "George");
-		Config.AddValidationEntry(plugin, "bot-picture", "https://i.pinimg.com/originals/bf/23/ca/bf23ca87c2a867e2b3b991e76d982abd.jpg");
-		Config.AddValidationEntry(plugin, "ban-color", "#ff2b2b");
-		Config.AddValidationEntry(plugin, "tempban-color", "#ff992b");
-		Config.AddValidationEntry(plugin, "unban-color", "#2afa4d");
-		Config.AddValidationEntry(plugin, "banip-color", "#5b09ad");
-		Config.AddValidationEntry(plugin, "unbanip-color", "#0ce6fa");
-		Config.AddValidationEntry(plugin, "bans", true);
-		Config.AddValidationEntry(plugin, "tempbans", true);
-		Config.AddValidationEntry(plugin, "unbans", true);
-		Config.AddValidationEntry(plugin, "banips", true);
-		Config.AddValidationEntry(plugin, "unbanips", true);
-		Config.AddValidationEntry(plugin, "debug", false);
+		config.AddValidationEntry("webhook-url", "");
+		config.AddValidationEntry("bot-name", "George");
+		config.AddValidationEntry("bot-picture", "https://i.pinimg.com/originals/bf/23/ca/bf23ca87c2a867e2b3b991e76d982abd.jpg");
+		config.AddValidationEntry("ban-color", "#ff2b2b");
+		config.AddValidationEntry("tempban-color", "#ff992b");
+		config.AddValidationEntry("unban-color", "#2afa4d");
+		config.AddValidationEntry("banip-color", "#5b09ad");
+		config.AddValidationEntry("unbanip-color", "#0ce6fa");
+		config.AddValidationEntry("bans", true);
+		config.AddValidationEntry("tempbans", true);
+		config.AddValidationEntry("unbans", true);
+		config.AddValidationEntry("banips", true);
+		config.AddValidationEntry("unbanips", true);
+		config.AddValidationEntry("debug", false);
 
 		//Lang
-		Config.AddValidationEntry(plugin, "bot-message", "");
-		Config.AddValidationEntry(plugin, "banned-title", "%target% has been banned!");
-		Config.AddValidationEntry(plugin, "tempbanned-title", "%target% has been temp banned!");
-		Config.AddValidationEntry(plugin, "unbanned-title", "%target% has been unbanned!");
-		Config.AddValidationEntry(plugin, "ip-banned-title", "IP: %target% has been banned!");
-		Config.AddValidationEntry(plugin, "ip-unbanned-title", "IP: %target% has been unbanned!");
-		Config.AddValidationEntry(plugin, "description", "");
-		Config.AddValidationEntry(plugin, "reason-line1", "Reason: ");
-		Config.AddValidationEntry(plugin, "reason-line2", "%reason%");
-		Config.AddValidationEntry(plugin, "banned-by-line1", "Banned by: ");
-		Config.AddValidationEntry(plugin, "banned-by-line2", "%sender%");
-		Config.AddValidationEntry(plugin, "unbanned-by-line1", "Unbanned by: ");
-		Config.AddValidationEntry(plugin, "unbanned-by-line2", "%sender%");
-		Config.AddValidationEntry(plugin, "duration-line1", "Duration: ");
-		Config.AddValidationEntry(plugin, "duration-line2", "%duration%");
-		Config.AddValidationEntry(plugin, "banned-on", "Banned on %date%");
+		Lang.messages.AddValidationEntry("bot-message", "");
+		Lang.messages.AddValidationEntry("banned-title", "%target% has been banned!");
+		Lang.messages.AddValidationEntry("tempbanned-title", "%target% has been temp banned!");
+		Lang.messages.AddValidationEntry("unbanned-title", "%target% has been unbanned!");
+		Lang.messages.AddValidationEntry("ip-banned-title", "IP: %target% has been banned!");
+		Lang.messages.AddValidationEntry("ip-unbanned-title", "IP: %target% has been unbanned!");
+		Lang.messages.AddValidationEntry("description", "");
+		Lang.messages.AddValidationEntry("reason-line1", "Reason: ");
+		Lang.messages.AddValidationEntry("reason-line2", "%reason%");
+		Lang.messages.AddValidationEntry("banned-by-line1", "Banned by: ");
+		Lang.messages.AddValidationEntry("banned-by-line2", "%sender%");
+		Lang.messages.AddValidationEntry("unbanned-by-line1", "Unbanned by: ");
+		Lang.messages.AddValidationEntry("unbanned-by-line2", "%sender%");
+		Lang.messages.AddValidationEntry("duration-line1", "Duration: ");
+		Lang.messages.AddValidationEntry("duration-line2", "%duration%");
+		Lang.messages.AddValidationEntry("banned-on", "Banned on %date%");
 				
 		getServer().getPluginManager().registerEvents(new BanListener(), this);
 		getServer().getPluginManager().registerEvents(new CommandListener(), this);
 		
-		Log.Info(plugin, "Bans: " + Config.GetBool(plugin, "bans"));
-		Log.Info(plugin, "Tempbans: " + Config.GetBool(plugin, "tempbans"));
-		Log.Info(plugin, "Unbans: " + Config.GetBool(plugin, "unbans"));
-		Log.Info(plugin, "IP-Bans: " + Config.GetBool(plugin, "banips"));
-		Log.Info(plugin, "IP-Unbans: " + Config.GetBool(plugin, "unbanips"));
+		Log.Info(plugin, "Bans: " + config.GetBool("bans"));
+		Log.Info(plugin, "Tempbans: " + config.GetBool("tempbans"));
+		Log.Info(plugin, "Unbans: " + config.GetBool("unbans"));
+		Log.Info(plugin, "IP-Bans: " + config.GetBool("banips"));
+		Log.Info(plugin, "IP-Unbans: " + config.GetBool("unbanips"));
 		
-		if(Config.GetBool(plugin, "debug")) {
+		if(config.GetBool("debug")) {
 		Log.Info(plugin, "Debugging enabled.");
 		}
-		if(Config.GetString(plugin, "webhook-url") == "") {
+		if(config.GetString("webhook-url") == "") {
 			Log.Warning(plugin, "Please change my config.yml before using me.\nYou can reload me when needed with /db reload.");
 			Log.Info(plugin, "§cDisabled!");
 			enabled = false;
 		}
 		else {
-			if(Config.GetBool(plugin, "debug")) {
+			if(config.GetBool("debug")) {
 				Log.Info(plugin, "§aEnabled!");
 			}
 		}
@@ -97,7 +100,7 @@ public final class DiscordBans extends JavaPlugin implements Listener {
     
     @Override
     public void onDisable() {
-    	if(Config.GetBool(plugin, "debug")) {
+    	if(config.GetBool("debug")) {
     		Log.Info(plugin, "§cDisabled!");
     	}
     }

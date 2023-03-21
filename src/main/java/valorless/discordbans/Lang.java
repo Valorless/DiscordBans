@@ -1,9 +1,10 @@
 package valorless.discordbans;
 
-import org.bukkit.plugin.java.JavaPlugin;
-import valorless.valorlessutils.ValorlessUtils.Config;
+import valorless.valorlessutils.config.Config;
 
 public class Lang {
+	
+	public static Config messages;
 	
 	public static class Placeholders{
 		public static String target = "";
@@ -25,7 +26,7 @@ public class Lang {
 		return text;
 	}
 
-	public static String Get(JavaPlugin caller, String key) {
-		return Parse(Config.GetString(caller, key));
+	public static String Get(String key) {
+		return Parse(messages.GetString(key));
 	}
 }
