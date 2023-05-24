@@ -72,31 +72,27 @@ public class BanListener implements Listener { // Primary objective of BanListen
 			}
 			if(args[0].equalsIgnoreCase("/tempban") && args.length >= 3 && DiscordBans.config.GetBool("tempbans") == true) {
 				if(sender.hasPermission("essentials.tempban")) {
-					for(Player entry:Bukkit.getServer().getOnlinePlayers())
-					{
-					    if(entry.getName().equalsIgnoreCase(args[1])) {  //Check if player is online
-					    	Date now = new Date();
-							String target = args[1];
-							if (target != "") {
-								if(args.length >= 4) {
-									String reason = "";
-									for(int i = 3; i < args.length; i++) { reason = reason + " " + args[i]; }
-									if(console) { 
-										SendWebhook(BanType.tempban, target, "Console", reason, now, args[2]);
-									} else {
-										SendWebhook(BanType.tempban, target, sender.getName(), reason, now, args[2]);
-									}
-								}
-								else {
-									if(console) { 
-										SendWebhook(BanType.tempban, target, "Console", "No reason given.", now, args[2]);
-									} else {
-										SendWebhook(BanType.tempban, target, sender.getName(), "No reason given.", now, args[2]);
-									}
-								}
+				    Date now = new Date();
+					String target = args[1];
+					if (target != "") {
+						if(args.length >= 4) {
+							String reason = "";
+							for(int i = 3; i < args.length; i++) { reason = reason + " " + args[i]; }
+							if(console) { 
+								SendWebhook(BanType.tempban, target, "Console", reason, now, args[2]);
+							} else {
+								SendWebhook(BanType.tempban, target, sender.getName(), reason, now, args[2]);
 							}
-					    }
+						}
+						else {
+							if(console) { 
+								SendWebhook(BanType.tempban, target, "Console", "No reason given.", now, args[2]);
+							} else {
+								SendWebhook(BanType.tempban, target, sender.getName(), "No reason given.", now, args[2]);
+							}
+						}
 					}
+				    
 				}
 			}
 			if(args[0].equalsIgnoreCase("/unban") && args.length >= 2 && DiscordBans.config.GetBool("unbans") == true || 

@@ -24,6 +24,7 @@ unbanned-by-line2: '%sender%'
 duration-line1: 'Duration: '
 duration-line2: '%duration%'
 banned-on: 'Banned on %date%'
+unbanned-on: 'Unbanned on %date%'
 
 ### Placeholders ###
 # %target% - The player affected.

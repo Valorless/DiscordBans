@@ -1,6 +1,6 @@
 name: DiscordBans
 main: valorless.discordbans.DiscordBans
-version: 0.1.0.25
+version: 0.1.0.26
 author: Valorless
 depend: [ValorlessUtils]
 api-version: 1.18
